@@ -10,3 +10,4 @@ const { protect } = require('../middleware/authMiddleware');
 router.get('/search', protect, searchRegistry);
 
 module.exports = router;
+
