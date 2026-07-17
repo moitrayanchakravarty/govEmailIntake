@@ -88,8 +88,6 @@ exports.searchRegistry = async (req, res) => {
 
 
 
-
-
 /**
  * @desc    System utility to safely update or create registry items strictly upon PM Approval (REG-03)
  * @param   {String} emailAddress - The target email string
