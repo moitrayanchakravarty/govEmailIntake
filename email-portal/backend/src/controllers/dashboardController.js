@@ -11,13 +11,13 @@ const dashboardService = require('../services/dashboardService');
 
 exports.getDashboardMetrics = async (req, res) => {
     try {
-        const userRole = req.user.role;
+        const userRole = req.user.role?.toLowerCase();
 
 
 
 
         // RPT-01: Portal Manager / Super Admin Global Metrics Access
-        if (userRole === 'Portal_Manager' || userRole === 'Super_Admin') {
+        if (userRole === 'portal_manager' || userRole === 'super_admin') {
             const metrics = await dashboardService.getGlobalMetrics();
             return res.status(200).json({ success: true, scope: "Global", data: metrics });
         }
@@ -26,7 +26,7 @@ exports.getDashboardMetrics = async (req, res) => {
 
 
         // RPT-02: Office Admin Scoped Metrics Access
-        if (userRole === 'Office_Admin') {
+        if (userRole === 'office_admin') {
             if (!req.user.officeName) {
                 return res.status(400).json({ success: false, message: "Administrative profile error: Office assignment missing." });
             }
