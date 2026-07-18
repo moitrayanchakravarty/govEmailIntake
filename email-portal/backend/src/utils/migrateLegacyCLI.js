@@ -3,11 +3,12 @@ const path = require('path');
 const xlsx = require('xlsx');
 const mongoose = require('mongoose');
 const { runLegacyMigration } = require('../services/migrationService');
+//require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 
 
 
-const MONGO_URI = 'mongodb+srv://akasha-lavishlines:akasha-lavishlines@akasha-cluster.ychvvzw.mongodb.net/?appName=akasha-cluster';
+const MONGO_URI = //process.env.MONGO_URI;  //give the mongo URI
 
 
 
