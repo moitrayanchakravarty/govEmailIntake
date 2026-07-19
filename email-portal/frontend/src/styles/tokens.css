@@ -1,0 +1,71 @@
+/**
+ * Design tokens.
+ *
+ * Everything visual (color, type scale, spacing, radius, shadow) is
+ * defined once here as CSS custom properties, and every component reads
+ * from these instead of hardcoding values. That's what keeps future
+ * screens (dashboard, registry table, request form) looking like the
+ * same product instead of drifting page by page.
+ *
+ * Palette reasoning:
+ * - Deep navy (--color-primary) reads as "official" without copying any
+ *   specific existing portal's exact blue — chosen for a high contrast
+ *   ratio against both white and light-gray backgrounds (>8:1).
+ * - A single restrained rust/amber accent, used ONLY for focus rings and
+ *   the header's bottom rule — not scattered across buttons/badges/links,
+ *   so it stays a signal (this needs your attention) rather than
+ *   decoration.
+ * - Grays are intentionally on the darker end (muted text is #4b5563,
+ *   not a lighter gray) because low-contrast gray text is one of the most
+ *   common WCAG failures on form-heavy sites.
+ */
+
+:root {
+  /* Color */
+  --color-primary: #0b3d6e;
+  --color-primary-hover: #082c50;
+  --color-accent: #b45309;
+  --color-success: #15803d;
+  --color-success-bg: #ecfdf3;
+  --color-danger: #b91c1c;
+  --color-danger-bg: #fef2f2;
+  --color-bg: #f4f6f8;
+  --color-surface: #ffffff;
+  --color-border: #d0d7de;
+  --color-text: #1b1f23;
+  --color-text-muted: #4b5563;
+  --color-focus-ring: #b45309;
+
+  /* Type */
+  --font-family-base: 'Noto Sans', 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.125rem;
+  --font-size-lg: 1.375rem;
+  --font-size-xl: 1.75rem;
+
+  /* Layout */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.12), 0 1px 2px rgba(15, 23, 42, 0.08);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+}
+
+/*
+ * Real, working text-size control (GIGW-standard "A / A+ / A++").
+ * AppHeader toggles this attribute on <html>; because everything in the
+ * app is sized in rem, scaling the root font-size scales the whole page
+ * proportionally — layout, spacing, and inputs included, not just text.
+ */
+html[data-text-size='large'] {
+  font-size: 112.5%;
+}
+
+html[data-text-size='xlarge'] {
+  font-size: 125%;
+}
