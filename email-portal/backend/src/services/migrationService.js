@@ -13,20 +13,34 @@ const GOV_EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@assam\.gov\.in$/;
 
 
 exports.runLegacyMigration = async (legacyDataBatch) => {
-
+    const processedBatch = legacyDataBatch.map((record) => {
+        const keys = Object.keys(record);
+        if (keys.length === 1 && keys[0].includes(',')) {
+            const compoundKey = keys[0];
+            const compoundValue = record[compoundKey];
+            if (typeof compoundValue === 'string') {
+                const headerFields = compoundKey.split(',').map(s => s.trim());
+                const valueFields = compoundValue.split(',').map(s => s.trim());
+                
+                const newRecord = {};
+                headerFields.forEach((field, idx) => {
+                    newRecord[field] = valueFields[idx] || '';
+                });
+                return newRecord;
+            }
+        }
+        return record;
+    });
 
     const session = await mongoose.startSession();
     session.startTransaction();
 
-
-
-
     try {
-        console.log(`Analyzing ${legacyDataBatch.length} legacy Excel rows...`);
+        console.log(`Analyzing ${processedBatch.length} legacy Excel rows...`);
         const uniqueEmailsInBatch = new Set();
 
-        for (let i = 0; i < legacyDataBatch.length; i++) {
-            const record = legacyDataBatch[i];
+        for (let i = 0; i < processedBatch.length; i++) {
+            const record = processedBatch[i];
             const email = record.emailAddress?.toLowerCase().trim();
 
             if (!email) {
@@ -51,11 +65,8 @@ exports.runLegacyMigration = async (legacyDataBatch) => {
             }
         }
 
-
-
-
         // Format fields with legacy tracking flag attached
-        const formattedRecords = legacyDataBatch.map(record => ({
+        const formattedRecords = processedBatch.map(record => ({
             emailAddress: record.emailAddress.toLowerCase().trim(),
             status: record.status || 'Active',
             officeName: record.officeName,

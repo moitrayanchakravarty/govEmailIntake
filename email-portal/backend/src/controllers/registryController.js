@@ -24,7 +24,7 @@ exports.searchRegistry = async (req, res) => {
 
         // 2. HARDRULE (REG-04): Enforce data scoping based on user authorization
         // req.user will be populated by  authentication middleware[cite: 4]
-        if (req.user.role === 'Office_Admin') {
+        if (req.user.role?.toLowerCase() === 'office_admin') {
             dbQuery.officeName = req.user.officeName; // Can ONLY see their own office entries
         }
         // If user is Portal_Manager, we skip this restriction to let them see all offices[cite: 2]

@@ -3,12 +3,8 @@ const path = require('path');
 const xlsx = require('xlsx');
 const mongoose = require('mongoose');
 const { runLegacyMigration } = require('../services/migrationService');
-//require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-
-
-
-
-const MONGO_URI = //process.env.MONGO_URI;  //give the mongo URI
+const env = require('../config/env');
+const MONGO_URI = env.MONGO_URI;
 
 
 
