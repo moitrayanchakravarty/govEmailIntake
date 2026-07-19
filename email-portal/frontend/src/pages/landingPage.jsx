@@ -1,15 +1,30 @@
-import { Link } from "react-router-dom";
+import SkipLink from '../components/common/skipLink';
+import AppHeader from '../components/common/appHeader';
+import AppFooter from '../components/common/appFooter';
+import styles from './landingPage.module.css';
 
-function LandingPage() {
+/**
+ * Office admins and portal managers log in through the exact same form
+ * (loginPage.jsx) — the backend session tells us which role logged in,
+ * and only THEN do we send them to /office-admin or /portal-manager
+ * (see loginPage.jsx's redirect logic). "Log In" is a single link and
+ * it lives in AppHeader's navbar, not duplicated here.
+ */
+export default function LandingPage() {
   return (
-    <div>
-      <h1>Welcome</h1>
+    <div className={styles.page}>
+      <SkipLink />
+      <AppHeader />
 
-      <Link to="/office-admin">Office Admin</Link>
-      <br />
-      <Link to="/portal-manager">Portal Manager</Link>
+      <main id="main-content" className={styles.main}>
+        <section className={styles.hero} aria-labelledby="hero-title">
+          <h1 id="hero-title" className={styles.heroTitle}>
+            Apply for and manage @assam.gov.in Emails.
+          </h1>
+        </section>
+      </main>
+
+      <AppFooter />
     </div>
   );
 }
-
-export default LandingPage;

@@ -5,7 +5,7 @@ const auth = require('./config/auth');
 const { toNodeHandler } = require('better-auth/node');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 
-const registryRoutes = require('./routes/registryRoutes'); // was commented out — now active
+//const registryRoutes = require('./routes/registryRoutes'); // was commented out — now active
 
 const auditRoutes = require('./routes/auditRoutes');
 
@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
-app.use('/api/registry', registryRoutes); // now actually mounted
+//app.use('/api/registry', registryRoutes); // now actually mounted
 app.use('/api/admin', auditRoutes);        // login-logs endpoint lives under here
 
 app.use(notFound);
