@@ -10,7 +10,11 @@ const CustodianHistorySchema = new mongoose.Schema({
     holderName: { type: String, required: true },
     designation: { type: String, required: true },
     startDate: { type: Date, required: true },
-    endDate: { type: mongoose.Schema.Types.Mixed, default: "ongoing" }
+    endDate: { type: mongoose.Schema.Types.Mixed, default: "ongoing" },
+    // Free-text note on *why* the custodian changed (handover, retirement,
+    // transfer, etc.) — populated automatically when a Modification /
+    // Deletion request against this account is approved.
+    changeReason: { type: String, default: null }
 }, { _id: false });
 
 
@@ -38,8 +42,14 @@ const MasterRegistrySchema = new mongoose.Schema({
     officeName: { type: String, required: true },
     creationDate: { type: Date, default: Date.now },
 
-
-
+    // Which basis this account was provisioned under — informs whether it
+    // is tied to a person (Name-based) or persists across incumbents
+    // (Designation/Office-based), per DITEC SOP Form EM-01/EM-03.
+    accountBasis: {
+        type: String,
+        enum: ['NAME_BASED', 'DESIGNATION_BASED', 'OFFICE_BASED'],
+        default: 'NAME_BASED'
+    },
 
     // Track if this record was migrated from legacy systems
     isLegacyImport: {
@@ -47,8 +57,20 @@ const MasterRegistrySchema = new mongoose.Schema({
         default: false
     },
 
+    // Populated when an approved Deletion/Surrender request retires this
+    // account. Kept as a soft-delete flag (status flips to 'Inactive')
+    // rather than a hard delete, since the SOP explicitly warns deleted
+    // accounts cannot be restored — we still want an audit trail.
+    deactivation: {
+        isDeactivated: { type: Boolean, default: false },
+        reason: { type: String, default: null },
+        deactivatedAt: { type: Date, default: null },
+        requestId: { type: String, default: null } // originating RequestForm.requestId
+    },
 
-
+    // Set only for time-bound accounts (contract/consultancy), extended via
+    // Form EM-04 "Account Validity Extension".
+    validUntil: { type: Date, default: null },
 
     currentCustodian: {
         name: { type: String, required: true },
@@ -62,5 +84,14 @@ const MasterRegistrySchema = new mongoose.Schema({
     timestamps: true
 });
 
-module.exports = mongoose.model('MasterRegistry', MasterRegistrySchema);
+MasterRegistrySchema.index({ officeName: 1, status: 1 });
+
+const MasterRegistry = mongoose.model('MasterRegistry', MasterRegistrySchema);
+
+// Exposed as a static property so any other layer (services/controllers)
+// validating a government email address reuses the exact same rule instead
+// of re-declaring the regex and risking drift.
+MasterRegistry.GOV_EMAIL_REGEX = GOV_EMAIL_REGEX;
+
+module.exports = MasterRegistry;
 //Done by Tinku Moni Kaushik , in 15th July , 2026
