@@ -12,7 +12,6 @@ export default function NewRequestLauncher({ onSelect }) {
     <div className={styles.grid}>
       {CARDS.map((c) => (
         <button key={c.key} type="button" className={styles.card} onClick={() => onSelect(c.key)}>
-          <span className={styles.code}>{c.code}</span>
           <div className={styles.title}>{c.title}</div>
           <p className={styles.desc}>{c.desc}</p>
         </button>

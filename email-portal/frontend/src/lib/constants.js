@@ -4,9 +4,9 @@ export const GOV_EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@assam\.gov\.in$/;
 export const PHONE_REGEX = /^(\+91[-\s]?)?[6-9]\d{9}$/;
 
 export const ACCOUNT_BASIS_OPTIONS = [
-  { value: 'NAME_BASED', label: 'Name-based', hint: 'Tied to one individual, e.g. jane.doe@assam.gov.in' },
-  { value: 'DESIGNATION_BASED', label: 'Designation-based', hint: 'Tied to a post, persists across incumbents' },
-  { value: 'OFFICE_BASED', label: 'Office-based', hint: 'Tied to an office/section rather than a person' }
+  { value: 'NAME_BASED', label: 'Name-based' },
+  { value: 'DESIGNATION_BASED', label: 'Designation-based' },
+  { value: 'OFFICE_BASED', label: 'Office-based' }
 ];
 
 export const MODIFICATION_TYPE_OPTIONS = [

@@ -21,7 +21,7 @@ export default function RequestDetailFields({ request }) {
     <>
       <div className={styles.grid}>
         <Item label="Request ID" value={request.requestId || 'Not yet submitted'} />
-        <Item label="Form" value={`${meta?.code} — ${meta?.label}`} />
+        <Item label="Form" value={meta?.label} />
         <Item label="Office" value={request.officeName} />
         <Item label="Submitted By" value={request.submittedBy?.name} />
       </div>

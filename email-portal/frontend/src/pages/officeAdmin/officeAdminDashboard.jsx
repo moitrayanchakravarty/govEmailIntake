@@ -83,7 +83,7 @@ export default function OfficeAdminDashboard() {
 
       {formSession ? (
         <Card
-          title={`${FORM_TYPE_META[formSession.formType].code} — ${FORM_TYPE_META[formSession.formType].label}`}
+          title={FORM_TYPE_META[formSession.formType].label}
           actions={<Button variant="ghost" onClick={() => setFormSession(null)}>Back</Button>}
         >
           <RequestFormRouter
