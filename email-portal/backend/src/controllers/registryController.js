@@ -1,4 +1,5 @@
 const MasterRegistry = require('../models/MasterRegistry');
+const requestService = require('../services/requestService');
 
 
 
@@ -57,7 +58,6 @@ exports.searchRegistry = async (req, res) => {
 
 
 
-
         // 5. Return structured response
         res.status(200).json({
             success: true,
@@ -65,8 +65,6 @@ exports.searchRegistry = async (req, res) => {
             data: records
         });
     }
-
-
 
 
 
@@ -80,10 +78,27 @@ exports.searchRegistry = async (req, res) => {
     }
 };
 
-
-
-
-
+/**
+ * @desc    Real-time availability check for a proposed @assam.gov.in email
+ *          address — backs the "Preferred Email ID" field on the Single and
+ *          Bulk account-creation forms (debounced call from the frontend,
+ *          mirroring the pattern in the reference emailCheck.js).
+ * @route   GET /api/registry/check-email?email=...
+ * @access  Private (Office Admin & Portal Manager)
+ */
+exports.checkEmailAvailability = async (req, res) => {
+    try {
+        const { email } = req.query;
+        const result = await requestService.checkEmailAvailability(email);
+        res.status(200).json({ success: true, ...result });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Server error while checking email availability.',
+            error: error.message
+        });
+    }
+};
 
 
 

@@ -1,4 +1,5 @@
 import { authClient } from '../api/authClient';
+import { Button } from './ui/primitives';
 
 /**
  * Logs the current user out.
@@ -19,5 +20,9 @@ export default function LogoutButton() {
     window.location.href = '/login';
   };
 
-  return <button onClick={handleLogout}>Log Out</button>;
+  return (
+    <Button type="button" variant="primary" onClick={handleLogout}>
+      Log Out
+    </Button>
+  );
 }
