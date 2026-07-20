@@ -1,0 +1,71 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+@media (max-width: 520px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.value {
+  color: var(--color-text);
+  word-break: break-word;
+}
+
+.sectionTitle {
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.timelineItem {
+  border-left: 3px solid var(--color-border);
+  padding-left: var(--space-3);
+}
+
+.timelineHead {
+  display: flex;
+  gap: var(--space-2);
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.timelineAction {
+  font-weight: 700;
+}
+
+.timelineMeta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.timelineComments {
+  margin-top: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}

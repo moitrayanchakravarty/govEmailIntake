@@ -1,7 +1,7 @@
 const { parse } = require('csv-parse/sync');
-const RequestForm = require('../models/RequestForm');
+const RequestForm = require('../models/requestForm');
 const MasterRegistry = require('../models/MasterRegistry');
-const { getNextSequence } = require('../models/Counter');
+const { getNextSequence } = require('../models/counter');
 
 const GOV_EMAIL_REGEX = MasterRegistry.GOV_EMAIL_REGEX;
 const PHONE_REGEX = /^(\+91[-\s]?)?[6-9]\d{9}$/; // Indian mobile, optional +91 prefix

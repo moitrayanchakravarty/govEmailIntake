@@ -1,4 +1,4 @@
-const RequestForm = require('../models/RequestForm');
+const RequestForm = require('../models/requestForm');
 const requestService = require('../services/requestService');
 const { ApiError } = requestService;
 

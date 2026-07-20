@@ -1,5 +1,5 @@
 const MasterRegistry = require('../models/MasterRegistry');
-const RequestForm = require('../models/RequestForm');
+const RequestForm = require('../models/requestForm');
 
 
 
