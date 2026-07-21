@@ -9,7 +9,7 @@ import useDashboardMetrics from '../../hooks/api/useDashboardMetrics';
 import useRequestsList from '../../hooks/api/useRequestsList';
 import { requestsApi } from '../../lib/api/requestsApi';
 import { getErrorMessage } from '../../lib/utils';
-import styles from '../officeAdmin/officeAdminDashboard.module.css';
+import styles from '../user/userDashboard.module.css';
 
 const TABS = [
   { value: 'overview', label: 'Overview' },

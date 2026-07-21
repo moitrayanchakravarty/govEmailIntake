@@ -53,6 +53,10 @@ export default function AppHeader() {
             <span className={styles.supportEmail}>ditec-asm@gov.in</span>
           </a>
 
+          <Link to="/signup" className={styles.signInLink}>
+            Sign Up
+          </Link>
+
           <Link to="/login" className={styles.signInLink}>
             Log In
           </Link>

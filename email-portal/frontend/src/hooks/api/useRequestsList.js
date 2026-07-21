@@ -3,7 +3,7 @@ import { requestsApi } from '../../lib/api/requestsApi';
 import { getErrorMessage } from '../../lib/utils';
 
 /**
- * Shared list hook — office_admin gets their own submissions only (server
+ * Shared list hook — user gets their own submissions only (server
  * enforces this regardless via req.user.id scoping in listRequests),
  * portal_manager gets every office's requests. Used by both dashboards'
  * "My Requests" / "Review Queue" tabs.

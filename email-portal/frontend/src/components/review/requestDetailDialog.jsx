@@ -8,10 +8,10 @@ import ReviewHistoryTimeline from './reviewHistoryTimeline';
 /**
  * One dialog, three audiences:
  *  - portal_manager on a Pending request  -> Approve / Reject / Revert
- *  - office_admin on their own Draft      -> Continue Editing / Delete
- *  - office_admin on their own Reverted   -> Resubmit
+ *  - user on their own Draft                -> Continue Editing / Delete
+ *  - user on their own Reverted             -> Resubmit
  * Anything else (Approved/Rejected, or a Pending request viewed by its
- * own office_admin) is read-only.
+ * own applicant/user) is read-only.
  */
 export default function RequestDetailDialog({
   request, role, onClose, onReview, onEditDraft, onDeleteDraft, onResubmit, busy
@@ -23,7 +23,7 @@ export default function RequestDetailDialog({
 
   const isPortalManager = role === 'portal_manager';
   const canReview = isPortalManager && request.status === 'Pending';
-  const isOwnerAdmin = role === 'office_admin';
+  const isOwnerAdmin = role === 'user';
 
   const handleReview = (action) => {
     if (action === 'REVERT' && !comments.trim()) {

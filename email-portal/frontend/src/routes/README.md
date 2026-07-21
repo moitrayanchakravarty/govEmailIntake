@@ -6,7 +6,7 @@ page components, instead of scattering `<Route>` definitions across the app.
 ## Typical files
 
 - **`appRoutes.jsx`** — declares every route (usually with `react-router-dom`'s
-  `<Routes>`/`<Route>`), grouped by area (public/auth routes, office-admin
+  `<Routes>`/`<Route>`), grouped by area (public/auth routes, user
   routes, portal-manager routes).
 - **`protectedRoutes.jsx`** — a route-guard wrapper (or `<Outlet>`-based
   layout route) that checks auth/role state before rendering the nested
@@ -19,8 +19,8 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route element={<ProtectedRoute allow={["officeAdmin"]} />}>
-        <Route path="/office-admin" element={<OfficeAdminDashboard />} />
+      <Route element={<ProtectedRoute allow={["user"]} />}>
+        <Route path="/dashboard" element={<UserDashboard />} />
       </Route>
     </Routes>
   );

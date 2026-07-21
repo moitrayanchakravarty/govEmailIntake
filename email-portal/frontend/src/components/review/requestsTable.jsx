@@ -5,7 +5,7 @@ import { formatDateTime } from '../../lib/utils';
 
 /**
  * showOffice/showSubmitter: portal_manager's Review Queue needs to see
- * which office and which admin a request came from; an office_admin's own
+ * which office and which user a request came from; a user's own
  * "My Requests" list doesn't (they already know it's theirs — the backend
  * only ever returns their own submissions to them anyway).
  */

@@ -14,7 +14,7 @@ app has distinct portals:
 ```
 pages/
 ├── auth/            # Login, password reset, etc. — shared entry points
-├── officeAdmin/      # Screens only an Office Admin can reach
+├── user/              # Screens only a signed-up user can reach
 └── portalManager/    # Screens only a Portal Manager can reach
 ```
 

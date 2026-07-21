@@ -13,7 +13,7 @@ function MetricCard({ value, label }) {
 /**
  * Renders whatever services/dashboardService.js returns — same shape for
  * both getGlobalMetrics (portal_manager) and getScopedMetrics
- * (office_admin), so this one component serves both dashboards.
+ * (user), so this one component serves both dashboards.
  */
 export default function MetricsSummary({ metrics, scope, officeName }) {
   if (!metrics) return null;

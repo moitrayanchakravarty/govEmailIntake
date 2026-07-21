@@ -8,5 +8,5 @@ Screens scoped to the "Portal Manager" role — only reachable when
 - Higher-privilege screens: master registry management, review queues,
   admin-of-admins management, reporting dashboards.
 
-Same conventions as `pages/officeAdmin/` — compose, don't reimplement,
+Same conventions as `pages/user/` — compose, don't reimplement,
 reusable pieces from `components/`.

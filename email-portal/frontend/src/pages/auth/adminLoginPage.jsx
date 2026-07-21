@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { authClient } from '../../api/authClient';
 import SkipLink from '../../components/common/skipLink';
 import AppHeader from '../../components/common/appHeader';
@@ -8,23 +8,18 @@ import FormField from '../../components/common/formField';
 import styles from './loginPage.module.css';
 
 /**
- * User sign-in — email + password only (no username plugin server-side).
- * This page is for self-signed-up applicants ONLY. Portal managers have
- * their own separate sign-in page (adminLoginPage.jsx) — there is no
- * shared login form and no role branching after sign-in here; a
- * portal_manager account that lands on this form is turned away and
- * pointed at the admin sign-in instead.
+ * Separate sign-in page for portal_manager accounts only.
+ *
+ * Deliberately NOT the same form as the user login page: there is no
+ * sign-up link here (portal_manager accounts are never self-registered —
+ * they only come from backend/scripts/createUser.js, which generates and
+ * prints the password once) and no "forgot password" self-service link,
+ * since these accounts aren't provisioned by the person themselves.
+ * Password recovery is a manual, out-of-band process (re-run the script
+ * or have an existing portal manager reset it via the admin API), not a
+ * public flow.
  */
-export default function LoginPage() {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  const successMessage = searchParams.get('verified')
-    ? 'Email verified. You can now log in.'
-    : searchParams.get('resetSuccess')
-      ? 'Password reset. You can now log in with your new password.'
-      : '';
-
+export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -33,9 +28,6 @@ export default function LoginPage() {
 
   const errorRef = useRef(null);
 
-  // Move focus to the error summary the moment one appears, so a screen
-  // reader user hears the failure immediately instead of having to find
-  // it. WCAG 3.3.1 (Error Identification) + GIGW error-handling guidance.
   useEffect(() => {
     if (error && errorRef.current) {
       errorRef.current.focus();
@@ -54,39 +46,22 @@ export default function LoginPage() {
       });
 
       if (signInError) {
-        // Better Auth returns a 403 specifically when the account exists,
-        // the password is correct, but the sign-up OTP was never
-        // verified (requireEmailVerification: true in config/auth.js).
-        // Send them to finish that instead of showing a generic error.
-        if (signInError.status === 403) {
-          navigate(`/verify-email?email=${encodeURIComponent(email.trim().toLowerCase())}`);
-          return;
-        }
-
         setError(signInError.message || 'Invalid email or password.');
         setIsSubmitting(false);
         return;
       }
 
-      if (data.user.role === 'portal_manager') {
-        // Wrong door — sign them back out so no session is left dangling
-        // on a page that isn't meant for this role.
+      if (data.user.role !== 'portal_manager') {
         await authClient.signOut();
-        setError('This sign-in is for individual users. Portal managers should use the admin sign-in page.');
+        setError('This sign-in is reserved for portal managers. Individual users should use the regular sign-in page.');
         setIsSubmitting(false);
         return;
       }
 
-      // Full page navigation instead of React Router's navigate().
-      // This avoids a race with Better Auth's session hook re-fetching
-      // (confirmed via HAR: a get-session request gets cancelled right
-      // after sign-in, then a second one succeeds a moment later).
-      // A hard navigation re-mounts everything and reads the fresh cookie
-      // cleanly, instead of racing an in-memory session state update.
-      window.location.href = '/dashboard';
+      // Full page navigation — see loginPage.jsx for why (avoids racing
+      // Better Auth's session hook re-fetch right after sign-in).
+      window.location.href = '/portal-manager';
     } catch {
-      // Network/server failure, as opposed to a rejected login — the
-      // original version had no catch here, so this failed silently.
       setError('Could not reach the server. Check your connection and try again.');
       setIsSubmitting(false);
     }
@@ -99,11 +74,7 @@ export default function LoginPage() {
 
       <main id="main-content" className={styles.main}>
         <div className={styles.card}>
-          <h1 className={styles.title}>Log in</h1>
-
-          {!error && successMessage && (
-            <p className={styles.successSummary}>{successMessage}</p>
-          )}
+          <h1 className={styles.title}>Portal manager sign-in</h1>
 
           {error && (
             <p ref={errorRef} tabIndex={-1} role="alert" className={styles.errorSummary}>
@@ -149,15 +120,8 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <p className={styles.linkRow}>
-            Forgot your password? <Link to="/forgot-password">Reset it</Link>
-          </p>
-          <p className={styles.linkRow}>
-            New here? <Link to="/signup">Create an account</Link>
-          </p>
-
           <p className={styles.altLoginRow}>
-            Portal manager? <Link to="/admin/login">Sign in here</Link>
+            Not a portal manager? <Link to="/login">User sign-in</Link>
           </p>
         </div>
       </main>

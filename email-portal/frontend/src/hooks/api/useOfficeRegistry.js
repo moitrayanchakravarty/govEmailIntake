@@ -3,7 +3,7 @@ import { registryApi } from '../../lib/api/registryApi';
 
 /**
  * Loads the caller's own office's Active accounts (scoped server-side for
- * office_admin, global for portal_manager) — used by Modification &
+ * user, global for portal_manager) — used by Modification &
  * Deletion forms so the user picks a real existing account instead of
  * free-typing an email that may not exist or belong to another office.
  */
