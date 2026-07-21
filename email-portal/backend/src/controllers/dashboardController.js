@@ -25,8 +25,8 @@ exports.getDashboardMetrics = async (req, res) => {
 
 
 
-        // RPT-02: Office Admin Scoped Metrics Access
-        if (userRole === 'office_admin') {
+        // RPT-02: User Scoped Metrics Access
+        if (userRole === 'user') {
             if (!req.user.officeName) {
                 return res.status(400).json({ success: false, message: "Administrative profile error: Office assignment missing." });
             }

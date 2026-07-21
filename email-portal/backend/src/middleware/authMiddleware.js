@@ -7,7 +7,7 @@
  *                     req.user.
  * requireRole      : gate a route to one or more specific roles. Must run
  *                     AFTER requireAuth, since it reads req.user.
- * requireOwnership : gate a route so an office_admin may only act on a
+ * requireOwnership : gate a route so a regular user may only act on a
  *                     RequestForm document they themselves submitted.
  *                     portal_manager always passes. Must run AFTER a prior
  *                     middleware/controller step has attached
@@ -77,7 +77,7 @@ exports.requireRole = (...allowedRoles) => {
 };
 
 /**
- * Data-security guard for the request workflow: an office_admin may only
+ * Data-security guard for the request workflow: a regular user may only
  * read/edit/submit/delete a RequestForm they personally created — even a
  * colleague in the same office cannot see or touch it. portal_manager is
  * exempt (global visibility is part of their role).

@@ -379,7 +379,7 @@ const applyApprovedRequestToRegistry = async (request) => {
 /**
  * Confirms the target account of a Modification/Deletion request actually
  * exists and (unless the caller is a portal_manager) belongs to the
- * caller's own office — an office admin should not be able to request
+ * caller's own office — a user should not be able to request
  * changes against another office's account.
  */
 const assertRegistryOwnership = async (emailAddress, user) => {

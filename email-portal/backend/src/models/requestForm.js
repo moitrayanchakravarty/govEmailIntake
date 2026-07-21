@@ -53,7 +53,7 @@ const BulkRowSchema = new mongoose.Schema({
     rowNumber: { type: Number, required: true },
     ...APPLICANT_FIELDS,
     // Per-row validation snapshot captured at upload/validate time so the
-    // office admin's on-screen review table and the persisted record agree
+    // user's on-screen review table and the persisted record agree
     // on exactly what was flagged.
     rowValidation: {
         isValid: { type: Boolean, default: true },
@@ -150,21 +150,20 @@ const RequestFormSchema = new mongoose.Schema({
         index: true
     },
 
-    // Data-scoping key — an office_admin's queries are always filtered to
+    // Data-scoping key — a user's queries are always filtered to
     // their own officeName (see middleware/authMiddleware.js +
     // controllers/requestController.js). Never trust a client-supplied
     // value for this; it is always taken from req.user.officeName at
     // creation time.
     officeName: { type: String, required: true, index: true },
 
-    // Ownership — used for the stricter "an office admin can only see
-    // their own submissions" rule (data security requirement: no office
-    // admin should see another office admin's requests, even within the
-    // same office).
+    // Ownership — used for the stricter "a user can only see their own
+    // submissions" rule (data security requirement: no user should see
+    // another user's requests, even within the same office).
     submittedBy: {
         userId: { type: String, required: true, index: true },
         name: { type: String, required: true },
-        username: { type: String, required: true }
+        email: { type: String, required: true }
     },
 
     // Applies to SINGLE_CREATION and BULK_CREATION only.

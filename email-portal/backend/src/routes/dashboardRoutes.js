@@ -72,7 +72,7 @@ const customRequireAuth = async (req, res, next) => {
  * Route: GET /api/dashboard/metrics
  * Description: Retrieves dashboard metrics (Active/Inactive counts and turnaround-time baselines).
  * Security: Protected route. Scoped via customRequireAuth:
- *   - Office Admins only see metrics scoped to their assigned office.
+ *   - Regular users only see metrics scoped to their assigned office.
  *   - Portal Managers see global aggregated metrics.
  */
 router.get('/metrics', customRequireAuth, getDashboardMetrics);

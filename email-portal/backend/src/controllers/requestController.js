@@ -261,7 +261,7 @@ async function createAndPersist(req, payload, saveAsDraft) {
         submittedBy: {
             userId: req.user.id,
             name: req.user.name,
-            username: req.user.username || req.user.name
+            email: req.user.email
         },
         reviewHistory: [{
             action: saveAsDraft ? 'DRAFT_SAVED' : 'SUBMITTED',
@@ -373,7 +373,7 @@ exports.submitDraft = async (req, res) => {
 };
 
 /**
- * @desc    Resubmit a Reverted request after the office admin addresses the
+ * @desc    Resubmit a Reverted request after the user addresses the
  *          portal manager's comments. Accepts an optional updated payload.
  * @route   POST /api/requests/:id/resubmit
  * @access  Private (Office Admin — owner only)
@@ -447,10 +447,10 @@ async function validateRequestForSubmission(request) {
 // ---------------------------------------------------------------------------
 
 /**
- * @desc    List requests. office_admin sees only their own submissions
- *          (strict per-user scoping — not just per-office — so no office
- *          admin can see another office admin's requests). portal_manager
- *          sees every office's requests.
+ * @desc    List requests. A regular user sees only their own submissions
+ *          (strict per-user scoping — not just per-office — so no user
+ *          can see another user's requests, even within the same office).
+ *          portal_manager sees every office's requests.
  * @route   GET /api/requests?formType=&status=&page=&limit=
  * @access  Private
  */
@@ -459,7 +459,7 @@ exports.listRequests = async (req, res) => {
         const { formType, status, page = 1, limit = 20 } = req.query;
         const query = {};
 
-        if (req.user.role === 'office_admin') {
+        if (req.user.role === 'user') {
             query['submittedBy.userId'] = req.user.id;
         }
         if (formType) query.formType = formType;
@@ -489,7 +489,7 @@ exports.listRequests = async (req, res) => {
 /**
  * @desc    Get a single request's full detail.
  * @route   GET /api/requests/:id
- * @access  Private (owner office_admin, or any portal_manager)
+ * @access  Private (owner user, or any portal_manager)
  */
 exports.getRequestById = async (req, res) => {
     res.status(200).json({ success: true, data: req.targetRequest });
